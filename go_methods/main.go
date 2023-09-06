@@ -1,6 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io"
+	"os"
+	"strings"
+)
 
 type Engineer struct {
 	Name    string
@@ -21,6 +26,12 @@ type People struct {
 
 var movies []string
 
+type Person struct {
+	Firstname string
+	Lastname  string
+	Email     string
+}
+
 func (e Engineer) Print() {
 	fmt.Println("Im print Method")
 	fmt.Println("My name is", e.Name)
@@ -29,6 +40,10 @@ func (e Engineer) Print() {
 
 func (e *Engineer) UpdateAge() {
 	e.Age += 10
+}
+
+func (p *Person) GetEmail() {
+	p.Email = strings.ToLower(p.Firstname) + strings.ToLower(p.Lastname) + "@gmail.com"
 }
 
 func main() {
@@ -56,4 +71,21 @@ func main() {
 
 	enginer.Print()
 	myEnginer.Print()
+
+	newPerson := Person{
+		Lastname:  "Toan",
+		Firstname: "Le",
+		Email:     "Toan@gmail.com",
+	}
+	newPerson.GetEmail()
+
+	fmt.Println("My Firstname is: ", newPerson.Firstname)
+	fmt.Println("My LastName is: ", newPerson.Lastname)
+	fmt.Println("My LastName is: ", newPerson.Email)
+	file, err := os.Create("app.js")
+	if err != nil {
+		panic(err)
+
+	}
+	io.WriteString(file, "let x = 3")
 }
